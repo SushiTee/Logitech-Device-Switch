@@ -1,0 +1,31 @@
+{
+    "display_pos": 5119,
+    "display_height": 1440,
+    "disable_corners": true,
+    "devices": [
+        {
+            "vidpid": "046D:C52B",
+            "usage": "0x0001",
+            "usage_page": "0xFF00",
+            "device_id": [
+                "0x08",
+                "0x1f"
+            ],
+            "device_number": 2,
+            "to_channel": 3,
+            "is_bluetooth": false
+        },
+        {
+            "vidpid": "046D:C52B",
+            "usage": "0x0001",
+            "usage_page": "0xFF00",
+            "device_id": [
+                "0x0a",
+                "0x1c"
+            ],
+            "device_number": 1,
+            "to_channel": 3,
+            "is_bluetooth": false
+        }
+    ]
+}

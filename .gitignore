@@ -1,0 +1,11 @@
+# vs code stuff
+.vscode
+
+# venv stuff
+.venv
+
+# config
+config.json
+
+# hidapitester
+hidapitester*

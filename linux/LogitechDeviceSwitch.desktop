@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Logitech Border Switch
+Exec=bash -c 'source <path_to_virtualenv>/bin/activate && python <path_to_logitech_device_switch>/logitech_device_switch.py'
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Utility;
