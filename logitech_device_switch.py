@@ -5,6 +5,7 @@ import time
 import subprocess
 import threading
 import json
+import socket
 import sys
 
 if sys.platform == "linux":
@@ -72,10 +73,27 @@ def create_tray_icon_windows() -> None:
 def get_cursor_pos() -> tuple:
     """Get the current cursor position"""
     if sys.platform == "linux":
-        output = os.popen("hyprctl cursorpos").read().strip()
-        x_pos = int(output.split(",")[0])
-        y_pos = int(output.split(",")[1])
-        return x_pos, y_pos
+        # docket path
+        xdg_runtime_dir = os.getenv("XDG_RUNTIME_DIR")
+        hyprland_instance_signature = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
+
+        socket_path = (
+            f"{xdg_runtime_dir}/hypr/{hyprland_instance_signature}/.socket.sock"
+        )
+
+        # use IPC socket to get cursor position
+        ipc_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        ipc_socket.connect(socket_path)
+
+        # Send the IPC command to get cursor position
+        ipc_socket.sendall(b"cursorpos")
+
+        response = ipc_socket.recv(128).decode("utf-8")
+
+        ipc_socket.close()
+
+        x_pos, y_pos = response.split(",")
+        return int(x_pos.strip()), int(y_pos.strip())
     elif sys.platform == "win32":
 
         class POINT(ctypes.Structure):
