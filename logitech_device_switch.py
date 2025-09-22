@@ -1,21 +1,22 @@
 """Simple script to switch logitech devices between different devices"""
 
-import os
-import time
-import subprocess
-import threading
 import json
+import os
 import socket
+import subprocess
 import sys
+import threading
+import time
 
 if sys.platform == "linux":
     import gi
 
     gi.require_version("Gtk", "3.0")
     gi.require_version("AppIndicator3", "0.1")
-    from gi.repository import Gtk, AppIndicator3
+    from gi.repository import AppIndicator3, Gtk
 else:
     import ctypes
+
     import pystray
     from PIL import Image, ImageDraw
 
@@ -161,10 +162,10 @@ def run_script(
         # check if cursor is in the corner by checking the y_pos only
         if disable_corners:
             if y_pos > display_height - 20:
-                time.sleep(0.1)
+                time.sleep(0.015)
                 continue
             elif y_pos < 20:
-                time.sleep(0.1)
+                time.sleep(0.015)
                 continue
 
         if x_pos == display_pos and prev_display_pos != display_pos:
@@ -210,8 +211,8 @@ def run_script(
                     send_output_arg,
                 ]
 
-                # run 3 times because sometimes it doesn't work on the first try for some reason
-                for _ in range(3):
+                # run 5 times because sometimes it doesn't work on the first try for some reason
+                for _ in range(5):
                     subprocess.run(
                         hidapitester_cmd,
                         stdout=subprocess.DEVNULL,
@@ -223,12 +224,13 @@ def run_script(
                             else {}
                         ),
                     )
+                    time.sleep(0.0001)  # wait for 100µs
 
         # set prev_display_pos to x_pos
         prev_display_pos = x_pos
 
         # sleep 100ms
-        time.sleep(0.1)
+        time.sleep(0.015)
 
 
 if __name__ == "__main__":
